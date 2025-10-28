@@ -1,0 +1,5 @@
+body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
+main { padding: 12px; min-width: 260px; }
+button { padding: 8px 12px; }
+#status { margin-top: 8px; color: #555; font-size: 12px; }
+

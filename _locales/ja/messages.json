@@ -1,0 +1,12 @@
+{
+  "save_to_drive": { "message": "Driveへ保存" },
+  "saving": { "message": "保存中" },
+  "saved": { "message": "保存しました" },
+  "error": { "message": "エラー" },
+  "open_options": { "message": "オプション" },
+  "options_title": { "message": "オプション" },
+  "save": { "message": "保存" },
+  "no_folder_set": { "message": "保存先フォルダ未設定" },
+  "requested": { "message": "リクエストしました" }
+}
+

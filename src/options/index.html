@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Options</title>
+    <link rel="stylesheet" href="options.css" />
+  </head>
+  <body>
+    <main>
+      <h1 id="title"></h1>
+      <label>
+        <span>Folder ID</span>
+        <input id="folderId" />
+      </label>
+      <label>
+        <span>File name pattern</span>
+        <input id="fileNamePattern" />
+      </label>
+      <fieldset>
+        <legend>PDF</legend>
+        <label><input type="checkbox" id="landscape" /> Landscape</label>
+        <label><input type="checkbox" id="printBackground" checked /> Print background</label>
+        <label>
+          Paper
+          <select id="paper">
+            <option value="A4">A4</option>
+            <option value="Letter">Letter</option>
+          </select>
+        </label>
+        <label>
+          Margin
+          <select id="margin">
+            <option value="default">Default</option>
+            <option value="narrow">Narrow</option>
+            <option value="none">None</option>
+          </select>
+        </label>
+      </fieldset>
+      <button id="save"></button>
+      <div id="status"></div>
+    </main>
+    <script type="module" src="options.js"></script>
+  </body>
+  </html>
+

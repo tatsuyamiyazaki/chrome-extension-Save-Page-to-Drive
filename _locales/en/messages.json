@@ -1,0 +1,12 @@
+{
+  "save_to_drive": { "message": "Save to Drive" },
+  "saving": { "message": "Saving" },
+  "saved": { "message": "Saved" },
+  "error": { "message": "Error" },
+  "open_options": { "message": "Options" },
+  "options_title": { "message": "Options" },
+  "save": { "message": "Save" },
+  "no_folder_set": { "message": "Folder not set" },
+  "requested": { "message": "Requested" }
+}
+
