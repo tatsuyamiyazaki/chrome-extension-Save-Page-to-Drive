@@ -3,6 +3,9 @@ import { ensureAuthToken } from "../lib/auth.js";
 import { uploadPdf } from "../lib/drive.js";
 import { printTabToPDF } from "../lib/pdf.js";
 
+// Path to packaged icon; if invalid/missing, we fallback to badge text
+const NOTIF_ICON_PATH = chrome.runtime.getURL("assets/icons/128.png");
+
 chrome.runtime.onInstalled.addListener(() => {
   chrome.contextMenus.create({ id: "save-pdf", title: chrome.i18n.getMessage("save_to_drive") || "Save to Drive", contexts: ["page"] });
 });
@@ -58,21 +61,34 @@ function formatFileName(pattern, tab) {
   out = out.replace(/{urlHost}/g, (() => {
     try { return new URL(tab?.url || "").host || ""; } catch { return ""; }
   })());
-  out = out.replace(/
-    {datetime:([^}]+)}
-  /gx, (_, fmt) => formatDate(new Date(), fmt));
+  out = out.replace(/\{datetime:([^}]+)\}/g, (_, fmt) => formatDate(new Date(), fmt));
   if (!out.toLowerCase().endsWith(".pdf")) out += ".pdf";
   return out;
 }
 
 async function notifyProgress(title, message) {
   const id = `save-drive-${Date.now()}`;
-  await chrome.notifications.create(id, { type: "basic", iconUrl: "assets/icons/128.png", title, message });
-  return id;
+  try {
+    await chrome.notifications.create(id, { type: "basic", iconUrl: NOTIF_ICON_PATH, title, message });
+    return id;
+  } catch (e) {
+    await chrome.action.setBadgeBackgroundColor({ color: "#2d7ff9" });
+    await chrome.action.setBadgeText({ text: "…" });
+    return null;
+  }
 }
 
 async function updateNotification(id, title, message) {
-  await chrome.notifications.update(id, { title, message });
+  if (id) {
+    try {
+      await chrome.notifications.update(id, { title, message, iconUrl: NOTIF_ICON_PATH });
+      return;
+    } catch {}
+  }
+  // Fallback: badge text
+  const short = (message || title || "").slice(0, 4);
+  await chrome.action.setBadgeText({ text: short || "OK" });
+  setTimeout(() => chrome.action.setBadgeText({ text: "" }), 3000);
 }
 
 async function saveForTab(tabId) {
@@ -99,4 +115,3 @@ async function saveForTab(tabId) {
     await updateNotification(notifyId, title, msg);
   }
 }
-
